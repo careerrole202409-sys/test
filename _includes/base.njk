@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - 株式会社Leap | 海外代理店営業の伴走ツール</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #2d3748;
+            background-color: #f7fafc;
+        }
+
+        /* ヘッダー */
+        header {
+            background: linear-gradient(135deg, #C10033 0%, #8B0024 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        .cta-button {
+            background: white;
+            color: #C10033;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            display: inline-block;
+            border: 2px solid white;
+            font-size: 0.9rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        /* パンくずリスト */
+        .breadcrumb {
+            max-width: 900px;
+            margin: 2rem auto 0;
+            padding: 0 2rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .breadcrumb a {
+            color: #4a5568;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: #C10033;
+        }
+
+        .breadcrumb span {
+            color: #cbd5e0;
+        }
+
+        /* 記事ヘッダー */
+        .article-header {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .article-category {
+            display: inline-block;
+            background: linear-gradient(135deg, #C10033 0%, #8B0024 100%);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(193, 0, 51, 0.3);
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a202c;
+            line-height: 1.3;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            padding: 1.5rem 0;
+            border-bottom: 2px solid #e2e8f0;
+            color: #718096;
+            font-size: 0.95rem;
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* アイキャッチ画像 */
+        .featured-image {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* 記事コンテンツ */
+        .article-content {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 3rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .article-content h2 {
+            font-size: 2rem;
+            color: #1a202c;
+            margin: 2.5rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #C10033;
+        }
+
+        .article-content h3 {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin: 2rem 0 1rem;
+        }
+
+        .article-content h4 {
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin: 1.5rem 0 0.8rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.8rem;
+            font-size: 1.05rem;
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid #C10033;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            background: #FFF0F3;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #4a5568;
+        }
+
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .article-content th {
+            background: linear-gradient(135deg, #C10033 0%, #8B0024 100%);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .article-content td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .article-content tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        .article-content tr:hover {
+            background: #FFF0F3;
+        }
+
+        /* ハイライトボックス */
+        .highlight-box {
+            background: #FFF0F3;
+            border-left: 4px solid #C10033;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box h4 {
+            color: #C10033;
+            margin: 0 0 1rem 0;
+        }
+
+        /* 目次 */
+        .table-of-contents {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .table-of-contents h3 {
+            font-size: 1.2rem;
+            color: #2d3748;
+            margin: 0 0 1rem 0;
+        }
+
+        .table-of-contents ul {
+            list-style: none;
+            margin: 0;
+        }
+
+        .table-of-contents li {
+            margin-bottom: 0.5rem;
+        }
+
+        .table-of-contents a {
+            color: #4a5568;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .table-of-contents a:hover {
+            color: #C10033;
+        }
+
+        /* シェアセクション */
+        .share-section {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .share-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #1a202c;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.3s;
+            padding: 0;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .share-btn svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        .share-btn.twitter {
+            background: #1da1f2;
+        }
+
+        .share-btn.facebook {
+            background: #4267B2;
+        }
+
+        .share-btn.linkedin {
+            background: #0077b5;
+        }
+
+        .share-btn.copy {
+            background: #718096;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* CTAセクション */
+        .cta-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #C10033 0%, #8B0024 100%);
+            border-radius: 12px;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            border: none;
+            padding: 0;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-section .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: white;
+            color: #C10033;
+            font-weight: 700;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .cta-section .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* フッター */
+        footer {
+            background: #2d2d2d;
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #C10033;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #4a5568;
+            color: #a0aec0;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background: linear-gradient(135deg, #C10033 0%, #8B0024 100%);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 0;
+                transition: left 0.3s ease;
+                z-index: 999;
+            }
+
+            nav.active {
+                left: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+                width: 100%;
+            }
+
+            nav ul li {
+                width: 100%;
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .article-title {
+                font-size: 1.6rem;
+            }
+
+            .article-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .article-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .article-content table {
+                font-size: 0.8rem;
+            }
+
+            .article-content th,
+            .article-content td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header>
+        <div class="header-container">
+            <a href="https://leap.site/" class="logo">Leap</a>
+            <button class="menu-toggle" aria-label="メニュー">☰</button>
+            <nav>
+                <ul>
+                    <li><a href="https://leap.site/">ホーム</a></li>
+                    <li><a href="https://leap.site/service">サービス</a></li>
+                    <li><a href="https://leap.site/about">About</a></li>
+                </ul>
+                <a href="https://app.leap.site/top" class="cta-button">無料で始める</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- パンくずリスト -->
+    {% if breadcrumbs %}
+    <div class="breadcrumb">
+        <a href="https://leap.site/">ホーム</a>
+        <span>›</span>
+        {% for crumb in breadcrumbs %}
+            {% if loop.last %}
+                <span>{{ crumb.title }}</span>
+            {% else %}
+                <a href="{{ crumb.url }}">{{ crumb.title }}</a>
+                <span>›</span>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- 記事ヘッダー -->
+    {% if title %}
+    <div class="article-header">
+        {% if category %}
+        <span class="article-category">{{ category }}</span>
+        {% endif %}
+        <h1 class="article-title">{{ title }}</h1>
+        {% if date or readTime %}
+        <div class="article-meta">
+            {% if date %}<span>📅 {{ date }}</span>{% endif %}
+            {% if readTime %}<span>⏱️ 読了時間: {{ readTime }}</span>{% endif %}
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- 記事コンテンツ -->
+    <article class="article-content">
+        {{ content | safe }}
+    </article>
+
+    <!-- シェアセクション -->
+    <div class="share-section">
+        <h3>この記事をシェアする</h3>
+        <div class="share-buttons">
+            <button class="share-btn twitter" onclick="shareOnTwitter()" title="Xでシェア">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </button>
+            <button class="share-btn facebook" onclick="shareOnFacebook()" title="Facebookでシェア">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 3.667h-3.533v7.98H9.101z"/></svg>
+            </button>
+            <button class="share-btn linkedin" onclick="shareOnLinkedIn()" title="LinkedInでシェア">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </button>
+            <button class="share-btn copy" onclick="copyLink()" title="リンクをコピー">🔗</button>
+        </div>
+    </div>
+
+    <!-- CTAセクション -->
+    <div class="cta-section">
+        <h2>Leapで海外代理店開拓を始めませんか？</h2>
+        <p>1万社以上の代理店データベースと強力な管理ツールで、あなたの海外展開を加速させます</p>
+        <a href="https://app.leap.site/top" class="cta-button">無料で始める</a>
+    </div>
+
+    <!-- フッター -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>サービス</h3>
+                <ul>
+                    <li><a href="https://app.leap.site/top">Leapプラットフォーム</a></li>
+                    <li><a href="https://app.leap.site/top">無料で始める</a></li>
+                    <li><a href="https://leap.site/">サービス紹介</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>企業情報</h3>
+                <ul>
+                    <li><a href="https://leap.site/about">About</a></li>
+                    <li><a href="https://leap.site/">会社概要</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>法務情報</h3>
+                <ul>
+                    <li><a href="https://leap.site/service/terms">利用規約</a></li>
+                    <li><a href="https://leap.site/service/privacypolicy">プライバシーポリシー</a></li>
+                    <li><a href="https://leap.site/service/特定商取引法に基づく表示">特定商取引法に基づく表示</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>お問い合わせ</h3>
+                <ul>
+                    <li><a href="mailto:corporate@leap.site">corporate@leap.site</a></li>
+                    <li><a href="tel:070-4032-3935">070-4032-3935</a></li>
+                    <li>神奈川県横浜市神奈川区金港町5-14<br>クアドリフォリオ8階</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 株式会社Leap. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ハンバーガーメニューの機能
+        const menuToggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('nav');
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function() {
+                nav.classList.toggle('active');
+            });
+
+            // メニュー外をクリックしたら閉じる
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('header')) {
+                    nav.classList.remove('active');
+                }
+            });
+        }
+
+        // シェア機能
+        function shareOnTwitter() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(document.title);
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+        }
+
+        function shareOnFacebook() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+        }
+
+        function shareOnLinkedIn() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(function() {
+                alert('リンクをコピーしました!');
+            }, function() {
+                alert('リンクのコピーに失敗しました');
+            });
+        }
+
+        // スムーズスクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
